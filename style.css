@@ -1,0 +1,27 @@
+.container{
+    display: flex;
+    background-color: black;
+    width: 300px;
+}
+
+
+
+
+
+.bottomhalf{
+    display:flex;
+    flex-wrap: wrap;
+    background-color: grey;
+    width: 300px;
+    margin-top: 200px;
+}
+
+button{
+    flex: 1 1 25%;
+    font-size: 36px;
+    
+    
+   
+    
+}
+
