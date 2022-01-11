@@ -1,8 +1,31 @@
 .container{
     display: flex;
-    background-color: black;
-    width: 300px;
+    flex-direction: column;
+    
+    
+    
+    
+
 }
+
+.history{
+    height: 100px;
+    width: 300px;
+    background-color: skyblue;
+    
+}
+
+.current{
+    display: flex;
+    height: 100px;
+    width: 300px;
+    background-color: red;
+    text-align: right;
+    font-size: 16px;
+    align-items: flex-end;
+    justify-content: right;
+}
+
 
 
 
@@ -13,7 +36,9 @@
     flex-wrap: wrap;
     background-color: grey;
     width: 300px;
-    margin-top: 200px;
+    height: 200px;
+    
+    
 }
 
 button{

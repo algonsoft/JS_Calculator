@@ -1,78 +1,126 @@
-Operate = function(a, b, c){
-    if(c == "+"){
-      return a + b;
-    }
-    if(c == "-"){
-        return a - b;
-    }
-    if(c == "*"){
-        return a * b;
-    }
-    if(c == "/"){
-        return b == 0 ? "Can't divide by zero!" : a / b;
-    }
-}
-
-console.log(Operate(10,1, "/"));
+let previousValue = 0;
+let currentValue = "";
+let operand = 0;
+let decimalCount = 0;
+let previousNum = 0;
+let currentNum = 0;
+let minusToggle = 0;
 
 
-
-//Junky code to create the buttons
+// Creating button elements and assigning values from array to buttons
+array = ["7","8","9","/","4","5","6","*","1","2","3","-","0",".","C","+","="]
 
 const bottomhalf = document.querySelector(".bottomhalf");
 
+for (let i = 0; i < array.length; i++){
+
 const squares = document.createElement('button');
-const squares1 = document.createElement('button');
-const squares2 = document.createElement('button');
-const squares3 = document.createElement('button');
-const squares4 = document.createElement('button');
-const squares5 = document.createElement('button');
-const squares6 = document.createElement('button');
-const squares7 = document.createElement('button');
-const squares8 = document.createElement('button');
-const squares9 = document.createElement('button');
-const squares10 = document.createElement('button');
-const squares11 = document.createElement('button');
-const squares12 = document.createElement('button');
-const squares13 = document.createElement('button');
-const squares14 = document.createElement('button');
-const squares15 = document.createElement('button');
-const squares16 = document.createElement('button');
-
-
-squares.textContent = "7";
+squares.classList.add('buttons');
+squares.textContent = array[i];
 bottomhalf.appendChild(squares);
-squares1.textContent = "8";
-bottomhalf.appendChild(squares1);
-squares2.textContent = "9";
-bottomhalf.appendChild(squares2);
-squares3.textContent = "/";
-bottomhalf.appendChild(squares3);
-squares4.textContent = "4";
-bottomhalf.appendChild(squares4);
-squares5.textContent = "5";
-bottomhalf.appendChild(squares5);
-squares6.textContent = "6";
-bottomhalf.appendChild(squares6);
-squares7.textContent = "*";
-bottomhalf.appendChild(squares7);
-squares8.textContent = "1";
-bottomhalf.appendChild(squares8);
-squares9.textContent = "2";
-bottomhalf.appendChild(squares9);
-squares10.textContent = "3";
-bottomhalf.appendChild(squares10);
-squares11.textContent = "-";
-bottomhalf.appendChild(squares11);
-squares12.textContent = "0";
-bottomhalf.appendChild(squares12);
-squares13.textContent = ".";
-bottomhalf.appendChild(squares13);
-squares14.textContent = "C";
-bottomhalf.appendChild(squares14);
-squares15.textContent = "+";
-bottomhalf.appendChild(squares15);
-squares16.textContent = "=";
-bottomhalf.appendChild(squares16);
+}
 
-//End of junky code
+//Setting Up the Initial Display
+const current = document.querySelector(".current");
+display = document.createElement('div');
+display.classList.add('current');
+display.textContent = "0";
+current.appendChild(display);
+
+
+//Delivers result and resets variables
+const Operate = function(previousValue, currentValue, operand){
+    previousNum = parseFloat(previousValue);
+    currentNum = parseFloat(currentValue);
+    console.log(previousValue);
+    console.log(currentValue);
+    console.log(operand);
+  
+    if(operand == "+"){
+      return previousNum + currentNum;
+    }
+    else if(operand == "-"){
+        return previousNum - currentNum;
+    }
+    else if(operand == "*"){
+        return previousNum * currentNum;
+    }
+    else if(operand == "/"){
+        return currentNum == 0 ? "Can't divide by zero!" : previousNum / currentNum;
+    }
+ 
+}
+
+
+//Event listener for calculator
+const buttons = document.querySelectorAll(".buttons");
+for (const button of buttons){
+    button.addEventListener('click', function(){
+        console.log(this.textContent) ;
+        console.log(currentValue.charAt(0));
+        if(isNaN(this.textContent) == false) {
+          if(display.textContent == "0"){
+              display.textContent = "";
+          }
+          if(isNaN(display.textContent) == true && currentValue.charAt(0) != "-"){
+              display.textContent = "";
+          }
+          display.textContent += this.textContent;
+        }
+        
+        if(this.textContent == "C"){
+            display.textContent = "0";
+            currentValue ="";
+            previousValue = 0;
+            operand = 0;
+            minusToggle = 0;
+        }
+
+        if(this.textContent == "." && decimalCount == 0){
+            display.textContent += this.textContent;
+            decimalCount = 1;
+        }
+
+       
+       if (this.textContent == "-" || this.textContent == "+" || this.textContent == "*" || this.textContent == "/"){
+
+        if(operand!=0 && isNaN(display.textContent) == true && this.textContent == "-" && minusToggle == 0){
+            display.textContent = "-"
+            currentValue = "-"
+            minusToggle = 1;
+
+        }
+       
+
+        if(operand!=0 && isNaN(display.textContent) == false) {
+            currentValue = display.textContent;
+            display.textContent = Operate(previousValue, currentValue, operand) ;
+            previousValue = display.textContent;
+            operand = this.textContent;
+            display.textContent += " " + operand
+            minusToggle = 0;
+            currentValue = "";
+            
+        }
+
+        if(operand == 0){
+            previousValue = display.textContent;
+            operand = this.textContent;
+            display.textContent = previousValue + " " + operand;
+            
+        }
+    }
+
+    if (this.textContent == "="){
+        if(isNaN(display.textContent) == false && operand!=0){
+        currentValue = display.textContent;
+        display.textContent = Operate(previousValue, currentValue, operand);
+        previousValue = display.textContent;
+        operand = 0;
+        currentValue = "";
+        minusToggle = 0;
+        }
+    }
+}
+    
+    )};
